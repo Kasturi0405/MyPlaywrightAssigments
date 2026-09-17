@@ -1,0 +1,23 @@
+import { test, expect } from "@playwright/test"
+
+test('Create a new lead in leaftaps application using playwright locators', async ({ page }) => {
+    await page.goto('https://leaftaps.com/opentaps/control/main')
+    await page.getByLabel('Username').fill('Demosalesmanager')
+    await page.getByRole('textbox', { name: 'Password' }).fill('crmsfa')
+    await page.getByRole('button').click()
+    await page.getByText('CRM/SFA').click()
+    await page.getByRole('link', { name: 'Leads' }).click()
+    await page.getByRole('link', { name: 'Create Lead' }).click()
+    await page.locator('#createLeadForm_companyName').fill('XYZ')
+    await page.locator('#createLeadForm_firstName').fill('fName')
+    await page.locator('#createLeadForm_lastName').fill('lName')
+    await page.locator('#createLeadForm_generalProfTitle').fill('ms')
+    await page.locator('#createLeadForm_personalTitle').fill('xxx')
+    await page.locator('#createLeadForm_annualRevenue').fill('4000000')
+    await page.locator('#createLeadForm_departmentName').fill('HR')
+    await page.locator('#createLeadForm_primaryPhoneNumber').fill("8452103697")
+    await page.getByRole('button', { name: 'Create Lead' }).last().click()
+    await expect(page.getByText('View Lead', { exact: true })).toBeVisible()
+    await page.getByRole('link', { name: 'Delete' }).click()
+    await expect(page.getByText('My Leads', { exact: true }).last()).toBeVisible()
+})
