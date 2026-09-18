@@ -1,0 +1,33 @@
+import { test, expect } from "@playwright/test";
+
+
+test("Search product, apply filters, add to cart in Decathlon", async ({ page }) => {
+    await page.goto("https://www.decathlon.in/")
+    await page.waitForLoadState('domcontentloaded')
+    await page.getByRole('searchbox').click()
+    await page.getByRole('searchbox', { name: 'Search for 60+ sports and 6,000+ products' }).fill('shoes')
+    await page.getByRole('searchbox', { name: 'Search for 60+ sports and 6,000+ products' }).press("Enter")
+    await page.waitForLoadState('domcontentloaded')
+    expect(page.getByRole('button', { name: 'Gender' })).toBeVisible()
+    console.log(await page.title());
+    expect(await page.title()).toEqual('Search | shoes')
+    await page.getByRole('button', { name: 'Gender' }).click()
+    await page.locator('//input[contains(@data-test-id,"en-MEN")]').click()
+    await page.getByRole('button', { name: 'Gender' }).click()
+    await page.getByRole('button', { name: 'Size' }).click()
+    await page.locator('//input[contains(@data-test-id,"UK 10.5 - EU 45")]').click()
+    await page.getByRole('button', { name: 'Size' }).click()
+    await page.getByRole('button', { name: 'Sport' }).last().click()
+    await page.locator('//input[contains(@data-test-id,"en-Running")]').click()
+    await page.getByRole('button', { name: 'Sport' }).last().click()
+    await page.getByRole('button', { name: 'Most relevant' }).click()
+    await page.getByRole('option', { name: 'Price (low → high)' }).click()
+    await page.getByAltText('Men Running Daily Foam Cushion Shoes, Jogflow 190.1 - Black').click()
+    await page.getByRole('button', { name: 'Select size 10.5' }).click()
+    await page.getByRole('button', { name: 'Add to cart' }).click()
+    expect(page.getByText("Product(s) added to cart")).toBeVisible()
+    await page.locator('.dy-lb-close').click()
+    await page.getByRole('link', { name: 'Cart' }).click()
+    await page.waitForLoadState('domcontentloaded')
+    console.log(await page.locator("//div[@data-test-id='order-summary-item-container']").first().innerText())
+})
