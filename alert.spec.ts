@@ -4,41 +4,39 @@ test("Automate a JavaScript prompt dialog using Playwright and enter the value P
 
     //use event listener to handle the alert
 
-page.on('dialog',async (alert) => {
+    page.on('dialog', async (alert) => {
 
-let alertType=alert.type()
-console.log(alertType);
+        let alertType = alert.type()
+        console.log(alertType);
 
-let alertMessage=alert.message()
-console.log(alertMessage);
+        let alertMessage = alert.message()
+        console.log(alertMessage);
 
-if (alertType==="confirm"){
+        if (alertType === "confirm") {
 
-await alert.accept()
+            await alert.accept()
 
-}else if(alertType==="alert"){
+        } else if (alertType === "alert") {
 
-await alert.accept()
+            await alert.accept()
 
-}else{
+        } else {
 
- await alert.accept("Playwright")
-}
-    
-})
+            await alert.accept("Playwright")
+        }
 
-//by default pw automatically cancels
+    })
 
-await page.goto('https://www.leafground.com/alert.xhtml')
+    //by default pw automatically cancels
 
-//alert-ok
-await page.locator('//span[text()="Show"]').first().click()
+    await page.goto('https://www.leafground.com/alert.xhtml')
 
-//confirm-ok and cancel
-await page.locator('//span[text()="Show"]').nth(1).click()
+    //alert-ok
+    await page.locator('//span[text()="Show"]').first().click()
 
-//prompt-ok, cancel and input text box
-await page.locator('//span[text()="Show"]').nth(4).click()
+    //confirm-ok and cancel
+    await page.locator('//span[text()="Show"]').nth(1).click()
 
-
+    //prompt-ok, cancel and input text box
+    await page.locator('//span[text()="Show"]').nth(4).click()
 })
